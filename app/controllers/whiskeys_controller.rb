@@ -4,11 +4,11 @@ class WhiskeysController < ApplicationController
 	end
 
 	def create
-		@whiskey = Whiskey.new
+		@whiskey = Whiskey.new(whiskey_params)
 		
 		if @whiskey.save
 			flash[:notice] = "whiskeyed!"
-			redirect_to whiskey_path
+			redirect_to whiskeys_path
 		else
 			flash[:notice] = "whiskey failed!"
 			logger.debug("There was an error!!!")
@@ -26,6 +26,6 @@ class WhiskeysController < ApplicationController
 
 	private
 	def whiskey_params
-		params.require(:whiskey).permit(:content)
+		params.require(:whiskey).permit(:name)
 	end
 end

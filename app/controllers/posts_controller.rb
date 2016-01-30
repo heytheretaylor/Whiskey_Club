@@ -4,12 +4,13 @@ class PostsController < ApplicationController
 	end
 
 	def create
-		@post = Post.new
+		@post = Post.new(post_params)
 		@post.user = current_user
+		
 
 		if @post.save
 			flash[:notice] = "Posted!"
-			redirect_to whiskey_path
+			redirect_to posts_path(@post)
 		else
 			flash[:notice] = "Post failed!"
 			logger.debug("There was an error!!!")
@@ -27,6 +28,6 @@ class PostsController < ApplicationController
 
 	private
 	def post_params
-		params.require(:whiskey).permit(:content)
+		params.require(:post).permit(:content)
 	end
 end

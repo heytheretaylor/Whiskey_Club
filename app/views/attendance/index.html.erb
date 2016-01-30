@@ -1,0 +1,28 @@
+<% if @is_coming %>
+you'll be there
+<% else %>
+can't make it
+<% end %>
+<br>
+<% @attendances.each do |a| %>
+<div class="a">
+
+<div class="a-userb"><strong>User Email</strong></div>
+<% if a.user.nil? %>
+<h1>no user</h1>
+<% else %>
+<div class="a-userb"><%= a.user.email %></div>
+<% end %>
+
+<div class="a-email"><strong>Session Date</strong></div>
+<% b = a.session.date_of %>
+<%if b.nil? %>
+	<h1>No date</h1>
+	<% else %>
+	<%= "#{b.strftime("%A")}, the #{b.strftime("%d")} of #{b.strftime("%B")}" %>
+	<% end %>
+<div class="a-email"><strong></strong></div>
+
+</div>
+<br>
+<% end %>

@@ -8,4 +8,7 @@ class User < ActiveRecord::Base
   has_many :sessions, :through => :attendances
 
   has_many :user_turn, :class_name => "Session", :foreign_key => "user_turn"
+
+  has_many :posts
+  
 end

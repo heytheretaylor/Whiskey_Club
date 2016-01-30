@@ -11,14 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125184701) do
+ActiveRecord::Schema.define(version: 20160130073921) do
 
   create_table "attendances", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
     t.integer  "session_id"
+    t.boolean  "is_coming"
   end
+
+  create_table "posts", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "whiskey_id"
+    t.integer "session_id"
+    t.string  "content"
+  end
+
+  add_index "posts", ["session_id"], name: "index_posts_on_session_id"
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+  add_index "posts", ["whiskey_id"], name: "index_posts_on_whiskey_id"
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -45,5 +57,11 @@ ActiveRecord::Schema.define(version: 20160125184701) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "whiskeys", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
 
 end

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :whiskeys
   resources :posts
-  get 'attendance/check_in'
+
 
   resources :attendance
 

@@ -6,15 +6,6 @@ class SessionsController < ApplicationController
 	def create
 		@session = Session.new(session_params)
 
-		# Creates new attendance record
-		# @attendance = Attendance.new
-		# @attendance.session = @session
-		# @attendance.user = current_user
-		# @attendance.save
-
-
-
-
 		if @session.save
 			flash[:notice] = "Session Created!"
 			redirect_to sessions_path
@@ -27,6 +18,8 @@ class SessionsController < ApplicationController
 
 	def show
 		@session = Session.find(params[:id])
+		@new_whiskey = Whiskey.new
+		@whiskeys = Whiskey.all
 	end
 
 
