@@ -12,21 +12,20 @@ class Session < ActiveRecord::Base
 
 	belongs_to :whiskey
 
-	# def next_friday_calc(day)
-		
-	# end
+	def self.date_of_next(day)
+		date  = Date.parse(day)
+		delta = date > Date.today ? 0 : 7
+		date + delta
+	end
 
 	def self.next_session
 		most_recent = Session.last
-		# if most_recent.date_of.nil?
-			# current_date = Time.now
 
 			if most_recent.date_of > Time.now
 				return most_recent
 			else
-				Session.create(:date_of => most_recent.date_of+7.days)
+				Session.create(:date_of => self.date_of_next("Friday"))
 			end
-		# end
 
 	end
 	

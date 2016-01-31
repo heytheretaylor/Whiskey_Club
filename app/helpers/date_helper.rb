@@ -1,5 +1,13 @@
+require 'date'
+
 module DateHelper
-	def next_date
-		# calculate the date of the next whiskey session
+	
+
+	def date_of_next(day)
+		date  = Date.parse(day)
+		delta = date > Date.today ? 0 : 7
+		date + delta
 	end
+
+
 end

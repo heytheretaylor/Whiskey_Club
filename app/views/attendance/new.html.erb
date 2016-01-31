@@ -1,18 +1,30 @@
+<%= @session_id %>
+<%= @current_attend %>
 <% b = @session.date_of %>
 <h3>The next session will be on <%= "#{b.strftime("%A")}, the #{b.strftime("%d")} of #{b.strftime("%B")}" %>
-<% if @check %>
-<h2>Checked in</h2>
-<% else %>
-<h1>Coming to Whiskey Hour?</h1>
-<% end %>
+
+<br>
+
+<% if @current_attend == false %>
+	Will you be joining us?	
+<%else%>
+	<%if @current_attend.is_coming %>
+		Still coming?
+		<% else %>
+		Changed your mind?
+	<% end %>
+<%end%>
+<%= render 'attendance/new', attendance: @attendance, current_attend: @current_attend %>
 
 
+<br>
+<%= @can_use %>
+
+<!-- 
 <%= form_for(@attendance, :url => attendance_index_path) do |f| %>
 <% if @check %>
-<% @is_coming = false %>
 <%= f.submit "Can't Make it anymore" %>
 <% else %>
-<% @is_coming = true¡ %>
 <%= f.submit "Check-In!" %>
 <% end %>
-<% end %>
+<% end %> -->

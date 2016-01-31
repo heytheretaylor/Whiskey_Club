@@ -1,4 +1,17 @@
 class SessionsController < ApplicationController
+	
+	def who_came(sid, uid)
+		a = Attendance.where(:session => sid)
+		b = a.where(:user => uid)
+		c = b.last
+
+
+
+		return c
+
+
+	end
+
 	def new
 		@session = Session.new
 	end
@@ -24,9 +37,11 @@ class SessionsController < ApplicationController
 
 
 	def index
-		@sessions = Session.all
-		@attendance = Attendance.all
-		@user = User.all
+		@sessions = Session.joins(:attendances).uniq
+		@attendance = Attendance.where.not(:session => nil, :user => nil)
+		@users = User.all
+
+
 	end
 
 	private

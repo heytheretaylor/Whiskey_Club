@@ -1,13 +1,30 @@
 class AttendanceController < ApplicationController
 
+
+
+  def current_attend
+    a = Attendance.where(:session => Session.next_session)
+    b = a.where(:user => current_user)
+    c = b.last
+
+    if c.nil?
+      return false
+    else
+      return c
+    end
+
+  end
+
+
+  
   def new
 
     @attendance = Attendance.new
     @session = Session.next_session
 
-    @check = Attendance.is_checked_in
 
-    @attendance.is_coming = @is_coming
+    @current_attend = current_attend
+
 
 
   end
@@ -17,28 +34,23 @@ class AttendanceController < ApplicationController
     @session = Session.next_session
     
     #makes new Attendance object, sets user to current user
-    @attendance = Attendance.new(:user => current_user)
+
+    ## removed :user => current_user from params for new, might let me take bool?
+    @attendance = Attendance.new(attendance_params)
     #sets session to next_session
     @attendance.session = @session
+    @attendance.user = current_user
 
-    #user_past checks if user has signed in yet
-    @user_past = Attendance.where(:session => Session.next_session)
 
-    #if user isnt signed in...
-    if @user_past.nil?
-      #call .save on attendance
-      if @attendance.save
-        flash[:notice] = "Posted!"
-        redirect_to attendance_index_path
-      else
-        flash[:notice] = "Post failed!"
-        logger.debug("There was an error!!!")
-       end
-     #if signed in, flash notice
-    else
-      flash[:notice] = "You've already signed in!"
+
+    if @attendance.save
+      flash[:notice] = "Posted!"
       redirect_to attendance_index_path
-    end
+    else
+      flash[:notice] = "Post failed!"
+      logger.debug("There was an error!!!")
+     end
+    
     
 
   end
@@ -47,7 +59,8 @@ class AttendanceController < ApplicationController
     ##eliminates nil fields in attendance (do I need this? should move to model)
     @attendances = Attendance.where.not(user_id: nil, session_id: nil)
     @users = User.all
-    @is_coming = @attendance.is_coming
+
+    @current_attend = current_attend
 
   end
 
@@ -59,7 +72,7 @@ class AttendanceController < ApplicationController
   private
 
   def attendance_params
-    params.require(:attendance).permit(:user_id, :session_id, :email, :is_coming)
+    params.require(:attendance).permit(:user_id, :session_id, :is_coming)
   end
 
 

@@ -1,13 +1,13 @@
 <h1>Sessions</h1>
 
-<% @sessions.each do |session| %>
-<br>
-<div class="session">
-<div class="session-date"><%= session.date_of.to_s%>:</div>
-<div class="session-id">session-id:<%= session.id %></div>
-<% session.users.each do |user| %>
-<div class="session-user">session-user:<%= user.email %></div>
-<% end %>
-</div>
 
-<% end %>
+<% @sessions.each do |s| %>
+<% a = @attendance.where(:session => s)%>
+<p><%= s.id %>
+<%= s.user %>
+</p>
+
+
+
+<%end%>
+

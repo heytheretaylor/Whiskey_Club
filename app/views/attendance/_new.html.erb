@@ -1,0 +1,6 @@
+<%= form_for(attendance, :url => attendance_index_path) do |f| %>
+<%= f.label :is_coming, "I can make it" %>
+<%= f.check_box :is_coming, :value => true%>
+<br>
+<%= f.submit "Submit" %>
+<% end %>
